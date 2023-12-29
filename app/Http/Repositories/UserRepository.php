@@ -7,11 +7,13 @@ use App\Http\Repositories\Interfaces\InterfaceUserRepository;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Faker\Factory as Faker;
 
 class UserRepository implements InterfaceUserRepository {
 
     public function createUser(UserDTO $request)  {
         return User::create([
+            "id" => Faker::create("id_ID")->uuid(),
             "name" => $request->name,
             "email" => $request->email, 
             "phonenumber" => $request->phonenumber,

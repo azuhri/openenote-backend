@@ -16,7 +16,8 @@ class UserRegisterRequest extends ValidatorRequest
         return [
             "name" => ["required", "max:50"],
             "email" => ["required", "unique:users,email","email:dns"],
-            "phonenumber" => ["required", "numeric", "digits:12", "unique:users,phonenumber"],
+            "phonenumber" => [ "numeric", "digits:12", "unique:users,phonenumber"],
+            "password" => ["required", "min:8"],
         ];
     }
 }

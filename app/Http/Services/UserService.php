@@ -22,10 +22,12 @@ class UserService {
         if(!$user = $this->userRepository->createUser($dto)) {
             throw new Exception("error when creating new user!");
         }
+
         Auth::attempt([
-            "email" => $dto->email,
-            "password" => $dto->password,
+            "email" => $user->email,
+            "password" => $user->password,
         ]);
+        
         $data = [
             ...$user->toArray(),
             "token" => $user->createToken("tokenUser")->accessToken
@@ -43,7 +45,7 @@ class UserService {
             throw new Exception("email or password doesnt correct!");
 
         $user = Auth::user();
-        $data =  [...$user->toArray(), $user->createToken("tokenUser")->accessToken];
+        $data =  [...$user->toArray(), "token" => $user->createToken("tokenUser")->accessToken];
 
         return $this->json->responseData($data);
     }
@@ -82,10 +84,6 @@ class UserService {
     public function updateDataUser(UserDTO $user, $userId) {
         if($this->userRepository->isExistEmail($userId, $user->email)) {
             throw new Exception("email already was exist!");
-        }
-
-        if($this->userRepository->isExistPhonenumber($userId, $user->phonenumber)) {
-            throw new Exception("phonenumber already was exist!");
         }
 
         $user = $this->userRepository->updateUser($user, $userId);

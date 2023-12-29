@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("user_id")->index();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->longText("message");
-            $table->timestamps();
+        Schema::table('oauth_access_tokens', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
+
+        Schema::table('oauth_access_tokens', function (Blueprint $table) {
+            $table->string('user_id')->index()->nullable();
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        //
     }
 };

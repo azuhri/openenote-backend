@@ -27,18 +27,6 @@ class UserController extends Controller
         }
     }
 
-    public function getAllUser() {
-        return $this->service->getAllUser();
-    }
-
-    public function setPin(UpdatePinUserRequest $request) {
-        try {
-            return $this->service->setPinUser($request->user()->id, $request->pin);
-        } catch (\Throwable $error) {
-            return $this->json->responseError($error->getMessage());
-        }
-    }
-
     public function updateUser(UpdateUserRequest $request) {
         try {
             $dtoUser = new UserDTO(
@@ -47,23 +35,6 @@ class UserController extends Controller
                 $request->phonenumber
             );
             return $this->service->updateDataUser($dtoUser, $request->user()->id);
-        } catch (\Throwable $error) {
-            return $this->json->responseError($error->getMessage());
-        }
-    }
-
-    public function getUserByPhonenumberOrId($parameterId) {
-        try {
-            return $this->service->getUserByPhonenumberOrId((int)$parameterId);
-        } catch (\Throwable $error) {
-            return $this->json->responseError($error->getMessage());
-        }
-    }
-
-    public function validatePinUser(Request $request) {
-        try {
-            $request->validate(["pin" => ["required", "digits:6", "numeric"]]);
-            return $this->service->validatePinUser($request->user()->id, $request->pin);
         } catch (\Throwable $error) {
             return $this->json->responseError($error->getMessage());
         }

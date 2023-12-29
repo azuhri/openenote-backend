@@ -24,7 +24,7 @@ class UpdateUserRequest extends ValidatorRequest
         return [
             "name" => ["required", "max:50"],
             "email" => ["required", "email:dns", "max:50"],
-            "phonenumber" => ["required", "numeric", "digits:12"]
+            "phonenumber" => ["numeric", "digits:12"]
         ];
     }
 }

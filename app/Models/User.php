@@ -17,7 +17,11 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $primaryKey = 'id';
+    public $incrementing = \false;
+    public $keyType = "string";
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -44,11 +48,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function debits() {
-        return $this->hasMany(Transaction::class, "sender_id");
-    }
 
-    public function credits() {
-        return $this->hasMany(Transaction::class, "receiver_id");
+    public function notes() {
+        return $this->hasMany(Note::class);
     }
 }

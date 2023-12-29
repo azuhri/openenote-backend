@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -35,27 +36,15 @@ Route::prefix("v1")->group(function () {
     Route::middleware("auth:api")->group(function() {
        Route::prefix("user")->controller(UserController::class)->group(function() {
           Route::get("/","getUser");
-          Route::get("/all","getAllUser");
-          Route::get("{parameterId}", "getUserByPhonenumberOrId");
           Route::put("/","updateUser");
-          Route::post("pin", "validatePinUser");
-          Route::put("pin","setPin");
        });
 
-       Route::prefix("transaction")->controller(TransactionController::class)->group(function() {
-          Route::get("/", "getDataTransactionUser");
-          Route::post("/", "createTransaction");
-          Route::post("topup", "topUpSaldo");
+       Route::prefix("note")->controller(NoteController::class)->group(function() {
+          Route::post("/","createNewNote");
+          Route::post("{noteId}","shareLink");
+          Route::get("/","getAllNote");
+          Route::get("{noteId}","getNoteById");
        });
-
-       Route::prefix("notification")->controller(NotificationController::class)->group(function() {
-          Route::get("/", "getNotification");
-       });
-
-       Route::prefix("log")->controller(LogController::class)->group(function() {
-          Route::get("/", "getLog");
-       });
-
     });
 
 });
